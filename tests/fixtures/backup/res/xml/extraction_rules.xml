@@ -1,0 +1,9 @@
+<data-extraction-rules>
+    <cloud-backup disableIfNoEncryptionCapabilities="true">
+        <include domain="database" path="public.db"/>
+        <exclude domain="sharedpref" path="tokens.xml"/>
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="database" path="secret.db"/>
+    </device-transfer>
+</data-extraction-rules>

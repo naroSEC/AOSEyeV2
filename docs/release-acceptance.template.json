@@ -1,0 +1,9 @@
+{
+  "wheel_sha256": "",
+  "requirements_scope": {"approved": false, "reviewer": "", "evidence": ""},
+  "interactive_gui": {"approved": false, "reviewer": "", "evidence": ""},
+  "clean_machine": {"approved": false, "reviewer": "", "evidence": ""},
+  "real_apk_limits": {"approved": false, "reviewer": "", "evidence": ""},
+  "licensing": {"approved": false, "reviewer": "", "evidence": ""},
+  "distribution_and_support": {"approved": false, "reviewer": "", "evidence": ""}
+}

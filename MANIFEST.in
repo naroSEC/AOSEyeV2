@@ -1,0 +1,13 @@
+include LICENSE THIRD_PARTY_NOTICES.md PACKAGE_README.md README.md CONTRIBUTING.md SECURITY.md pyproject.toml
+recursive-include src/analyzer *.py *.qml *.yaml
+recursive-include tests *.py *.java *.xml
+recursive-include tools *.py
+recursive-include docs *.md
+include docs/release-acceptance.template.json
+prune .codex-remote-attachments
+prune build
+prune dist
+prune .venv
+prune .pytest_cache
+global-exclude *.apk *.dex *.jar *.jdb2 *.log *.pyc *$py.class
+global-exclude __pycache__/*

@@ -1,0 +1,83 @@
+sources:
+  - 'Landroid/content/Intent;->getData('
+  - 'Landroid/content/Intent;->getDataString('
+  - 'Landroid/content/Intent;->getStringExtra('
+  - 'Landroid/content/Intent;->getParcelableExtra('
+  - 'Landroid/content/Intent;->getExtras('
+transfers:
+  # DEX invoke argument indices include the receiver for instance calls.
+  - signatures:
+      - 'Landroid/net/Uri;->getQueryParameter(Ljava/lang/String;)Ljava/lang/String;'
+      - 'Landroid/net/Uri;->toString()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getScheme()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getHost()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getAuthority()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getPath()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getLastPathSegment()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getQuery()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getFragment()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->getSchemeSpecificPart()Ljava/lang/String;'
+      - 'Landroid/os/Bundle;->getString(Ljava/lang/String;)Ljava/lang/String;'
+      - 'Landroid/os/BaseBundle;->getString(Ljava/lang/String;)Ljava/lang/String;'
+    arguments: [0]
+  - signatures:
+      - 'Landroid/os/Bundle;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;'
+      - 'Landroid/os/BaseBundle;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;'
+    arguments: [0, 2]
+  - signatures: ['Landroid/net/Uri;->parse(Ljava/lang/String;)Landroid/net/Uri;']
+    arguments: [0]
+  - signatures: ['Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;']
+    arguments: [0, 1]
+  - signatures: ['Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;']
+    arguments: [0]
+    uncertain: true
+sinks:
+  - id: AOS-WEBVIEW-004
+    title: Untrusted input reaches WebView content or origin loading
+    category: WEBVIEW
+    signatures: ['Landroid/webkit/WebView;->loadUrl(', 'Landroid/webkit/WebView;->loadData(', 'Landroid/webkit/WebView;->loadDataWithBaseURL(']
+    arguments: [1]
+    severity: HIGH
+    cwe: ['CWE-20']
+  - id: AOS-WEBVIEW-005
+    title: Untrusted input reaches WebView HTML content
+    category: WEBVIEW
+    signatures: ['Landroid/webkit/WebView;->loadDataWithBaseURL(']
+    arguments: [2]
+    severity: HIGH
+    cwe: ['CWE-20']
+  - id: AOS-WEBVIEW-006
+    title: Untrusted input reaches WebView JavaScript evaluation
+    category: WEBVIEW
+    signatures: ['Landroid/webkit/WebView;->evaluateJavascript(']
+    arguments: [1]
+    severity: HIGH
+    cwe: ['CWE-95']
+  - id: AOS-DYNAMIC-001
+    title: Untrusted input reaches process execution
+    category: DYNAMIC
+    signatures: ['Ljava/lang/Runtime;->exec(', 'Ljava/lang/ProcessBuilder;-><init>(']
+    arguments: [1]
+    severity: HIGH
+    cwe: ['CWE-78']
+  - id: AOS-STORAGE-001
+    title: Untrusted input reaches a raw SQL statement
+    category: STORAGE
+    signatures: ['Landroid/database/sqlite/SQLiteDatabase;->execSQL(', 'Landroid/database/sqlite/SQLiteDatabase;->rawQuery(']
+    arguments: [1]
+    severity: HIGH
+    cwe: ['CWE-89']
+  - id: AOS-DYNAMIC-002
+    title: Untrusted input reaches dynamic code loading
+    category: DYNAMIC
+    signatures: ['Ldalvik/system/DexClassLoader;-><init>(', 'Ldalvik/system/PathClassLoader;-><init>(']
+    arguments: [1]
+    severity: HIGH
+    cwe: ['CWE-470']
+  - id: AOS-IPC-004
+    title: Untrusted input reaches an outgoing intent
+    category: IPC
+    signatures: ['Landroid/app/Activity;->startActivity(', 'Landroid/content/Context;->startActivity(', 'Landroid/content/Context;->sendBroadcast(']
+    arguments: [1]
+    severity: MEDIUM
+    cwe: ['CWE-926']

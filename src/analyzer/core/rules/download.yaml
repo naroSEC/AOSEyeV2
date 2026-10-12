@@ -1,0 +1,22 @@
+sources:
+  - 'Landroid/app/DownloadManager;->getUriForDownloadedFile(J)Landroid/net/Uri;'
+transfers:
+  - signatures:
+      - 'Landroid/net/Uri;->getPath()Ljava/lang/String;'
+      - 'Landroid/net/Uri;->toString()Ljava/lang/String;'
+    arguments: [0]
+  - signatures: ['Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;']
+    arguments: [0, 1]
+sinks:
+  - id: AOS-DYNAMIC-003
+    title: Download-record URI reaches a dynamic code path argument
+    category: DYNAMIC
+    severity: MEDIUM
+    signatures:
+      - 'Ldalvik/system/DexClassLoader;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/ClassLoader;)V'
+      - 'Ldalvik/system/PathClassLoader;-><init>(Ljava/lang/String;Ljava/lang/ClassLoader;)V'
+      - 'Ldalvik/system/PathClassLoader;-><init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/ClassLoader;)V'
+    arguments: [1]
+    required_conditions:
+      - kind: source_prefix
+        prefix: 'Landroid/app/DownloadManager;->getUriForDownloadedFile(J)Landroid/net/Uri;'

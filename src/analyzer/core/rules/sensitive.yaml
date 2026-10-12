@@ -1,0 +1,87 @@
+# Separate from untrusted-input rules: these return values may be credentials.
+sources:
+  - 'Landroid/accounts/AccountManager;->peekAuthToken(Landroid/accounts/Account;Ljava/lang/String;)Ljava/lang/String;'
+  - 'Landroid/accounts/AccountManager;->blockingGetAuthToken(Landroid/accounts/Account;Ljava/lang/String;Z)Ljava/lang/String;'
+  - 'Landroid/accounts/AccountManager;->getPassword(Landroid/accounts/Account;)Ljava/lang/String;'
+transfers:
+  - signatures:
+      - 'Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;'
+    arguments: [0, 1]
+  - signatures:
+      - 'Ljava/lang/String;->getBytes()[B'
+      - 'Ljava/lang/String;->getBytes(Ljava/lang/String;)[B'
+      - 'Ljava/lang/String;->getBytes(Ljava/nio/charset/Charset;)[B'
+    arguments: [0]
+  - signatures:
+      - 'Landroid/content/ClipData;->newPlainText(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Landroid/content/ClipData;'
+    arguments: [1]
+sinks:
+  - id: AOS-SENSITIVE-001
+    title: Credential-derived value reaches a log message
+    category: PRIVACY
+    signatures:
+      - 'Landroid/util/Log;->v(Ljava/lang/String;Ljava/lang/String;)I'
+      - 'Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I'
+      - 'Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I'
+      - 'Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I'
+      - 'Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I'
+      - 'Landroid/util/Log;->wtf(Ljava/lang/String;Ljava/lang/String;)I'
+      - 'Landroid/util/Log;->v(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I'
+      - 'Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I'
+      - 'Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I'
+      - 'Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I'
+      - 'Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I'
+      - 'Landroid/util/Log;->wtf(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I'
+    arguments: [1]
+    severity: LOW
+    cwe: ['CWE-532']
+  - id: AOS-SENSITIVE-002
+    title: Credential-derived value reaches a log message
+    category: PRIVACY
+    signatures: ['Landroid/util/Log;->println(ILjava/lang/String;Ljava/lang/String;)I']
+    arguments: [2]
+    severity: LOW
+    cwe: ['CWE-532']
+  - id: AOS-SENSITIVE-003
+    title: Credential-derived value reaches a preferences editor
+    category: STORAGE
+    signatures: ['Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;']
+    arguments: [2]
+    severity: LOW
+    cwe: ['CWE-312']
+  - id: AOS-SENSITIVE-004
+    title: Credential-derived value reaches a SQLite bound value
+    category: STORAGE
+    signatures: ['Landroid/database/sqlite/SQLiteProgram;->bindString(ILjava/lang/String;)V', 'Landroid/database/sqlite/SQLiteStatement;->bindString(ILjava/lang/String;)V']
+    arguments: [2]
+    severity: LOW
+    cwe: ['CWE-312']
+  - id: AOS-SENSITIVE-005
+    title: Credential-derived value reaches a file or stream write
+    category: STORAGE
+    signatures:
+      - 'Ljava/io/Writer;->write(Ljava/lang/String;)V'
+      - 'Ljava/io/Writer;->write(Ljava/lang/String;II)V'
+      - 'Ljava/io/FileWriter;->write(Ljava/lang/String;)V'
+      - 'Ljava/io/FileWriter;->write(Ljava/lang/String;II)V'
+      - 'Ljava/io/OutputStreamWriter;->write(Ljava/lang/String;)V'
+      - 'Ljava/io/OutputStreamWriter;->write(Ljava/lang/String;II)V'
+      - 'Ljava/io/BufferedWriter;->write(Ljava/lang/String;)V'
+      - 'Ljava/io/BufferedWriter;->write(Ljava/lang/String;II)V'
+      - 'Ljava/io/OutputStream;->write([B)V'
+      - 'Ljava/io/OutputStream;->write([BII)V'
+      - 'Ljava/io/FileOutputStream;->write([B)V'
+      - 'Ljava/io/FileOutputStream;->write([BII)V'
+    arguments: [1]
+    severity: LOW
+    cwe: ['CWE-312']
+  - id: AOS-SENSITIVE-006
+    title: Credential-derived value reaches the clipboard
+    category: PRIVACY
+    signatures:
+      - 'Landroid/content/ClipboardManager;->setPrimaryClip(Landroid/content/ClipData;)V'
+      - 'Landroid/content/ClipboardManager;->setText(Ljava/lang/CharSequence;)V'
+      - 'Landroid/text/ClipboardManager;->setText(Ljava/lang/CharSequence;)V'
+    arguments: [1]
+    severity: LOW
+    cwe: ['CWE-200']
